@@ -32,6 +32,8 @@
         "react/jsx-props-no-spreading": "warn",
         "react/self-closing-comp": "warn",
         "react/jsx-boolean-value": ["error", "always"],
+        "react/no-unknown-property": "warn",
+        "react/forbid-prop-types": "warn",
         "no-param-reassign": "warn",
         "import/prefer-default-export": "warn",
         "arrow-body-style": "warn",

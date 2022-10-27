@@ -12,16 +12,17 @@ COPY . /booking-client
 
 RUN npm run build
 
-# => Run container
-FROM nginx:1.16.0
+CMD ["npm", "start"]
+# # => Run container
+# FROM nginx:1.16.0
 
-COPY --from=build /booking-client/build /usr/share/nginx/html
+# COPY --from=build /booking-client/build /usr/share/nginx/html
 
-RUN rm /etc/nginx/conf.d/default.conf
+# RUN rm /etc/nginx/conf.d/default.conf
 
-COPY nginx.conf /etc/nginx/conf.d
+# COPY nginx.conf /etc/nginx/conf.d
 
-EXPOSE 80
+# EXPOSE 80
 
-# Start Nginx server
-CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
+# # Start Nginx server
+# CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
