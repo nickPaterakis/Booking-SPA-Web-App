@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
 import { withRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import ReactPaginate from 'react-paginate';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
@@ -12,17 +13,20 @@ import houseIcon from '../assets/icons/house.svg';
 
 const MyProperties = ({ history }) => {
   const { keycloak } = useKeycloak();
-  const [propertiesPage, setPropertiesPage] = useState();
-  const [currentPage, setCurrentPage] = useState(0);
+  const user = useSelector((state) => state.user);
+  const [properties, setProperties] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getUserProperties(currentPage, keycloak.token);
-      setPropertiesPage(response.data);
+      if (user.email) {
+        const response = await getUserProperties(user.id, keycloak.token);
+        setProperties(response.data);
+      }
     };
     fetchData();
-  }, [currentPage]);
+  }, [user]);
 
+  console.log(user);
   const handlePageClick = ({ selected: selectedPage }) => {
     window.scrollTo(0, 0);
     setCurrentPage(selectedPage);
@@ -32,12 +36,11 @@ const MyProperties = ({ history }) => {
     history.push('/create-property');
   };
   
-  if (!propertiesPage) {
+  if (!properties) {
     return <Spinner />;
   }
-
-  const { properties } = propertiesPage;
-  const { totalElements } = propertiesPage;
+  console.log(properties);
+  const { totalElements } = properties?.length;
   const pageCount = Math.ceil(totalElements / PER_PAGE);
 
   return (

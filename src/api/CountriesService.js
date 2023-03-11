@@ -6,5 +6,5 @@ export function getCountries(name) {
 }
 
 export function getAllCountries() {
-  return axios.get(`${config.url.API_PROPERTY_URL}/countries/all`); 
+  return axios.get(`${config.url.API_PROPERTY_URL}/countries`); 
 }

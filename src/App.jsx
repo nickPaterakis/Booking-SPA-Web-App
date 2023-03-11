@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
 import { useDispatch } from 'react-redux';
 import keycloak from './utils/keycloak';
-import { getUserDetailsMe } from './api/UserService';
+import { getUserByEmail, createUser } from './api/UserService';
 import 'slick-carousel/slick/slick.css'; 
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-dates/initialize';
@@ -19,7 +19,6 @@ import BookingConfirmation from './pages/BookingConfirmation';
 import { setUser } from './store/actions/userActions';
 import Spinner from './components/UI/Spinner';
 import CreateProperty from './pages/CreateProperty';
-import NoMatch from './pages/NoMatch';
 
 require('dotenv').config();
 
@@ -31,10 +30,22 @@ function App() {
     if (event === 'onAuthSuccess') {
       if (keycloak.authenticated) {
         try {
-          const response = await getUserDetailsMe(keycloak.token);
+          const response = await getUserByEmail(keycloak.tokenParsed.email, keycloak.token);
+          console.log(response.data);
           dispatch(setUser(response.data));
-        } catch (er) {
-          console.log(er);
+        } catch (err) {
+          if (err.response.status === 404) {
+            const user = { 
+              firstName: keycloak.tokenParsed.given_name,
+              lastName: keycloak.tokenParsed.family_name,
+              email: keycloak.tokenParsed.email, 
+            };
+            const response = await createUser(user, keycloak.token);
+            console.log(response.data);
+            dispatch(setUser(response.data));
+          } else {
+            console.log(err);
+          }
         }
       }
     }

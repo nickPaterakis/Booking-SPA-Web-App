@@ -12,7 +12,16 @@ function PropertySlider({ images }) {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  
+
+  const printimage = (images) => {
+    return images ? images.map(
+      (image) => console.log(config.url.PROPERTY_IMAGES_URL + image.name),
+    ) : null;
+  };
+ 
+  printimage(images);
+  console.log(images);
+
   return (
     <Slider {...settings}>
       {images ? images.map((image) => (

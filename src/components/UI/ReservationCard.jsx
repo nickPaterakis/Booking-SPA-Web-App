@@ -15,7 +15,7 @@ function ReservationCard({ reservation, history }) {
   const today = moment().toDate();
 
   const handleView = () => {
-    history.push(`/view-property/${reservation.propertyId}`);
+    history.push(`/view-property/${reservation.property.id}`);
   };
 
   const handleDelete = async () => {
@@ -26,9 +26,9 @@ function ReservationCard({ reservation, history }) {
   return (
     <div className="reservation-card">
       <div className="reservation-card__header">
-        <h1 className="reservation-card__title">{reservation.propertyReservationDataDto.title}</h1>
+        <h1 className="reservation-card__title">{reservation.property.title}</h1>
         <div className="reservation-card__price">
-          <span className="reservation-card__price-number">{`${days * reservation.propertyReservationDataDto.pricePerNight}€`}</span>
+          <span className="reservation-card__price-number">{`${days * reservation.property.pricePerNight.amount}€`}</span>
         </div>
       </div>
       <div className="reservation-card__informations">
@@ -57,19 +57,19 @@ function ReservationCard({ reservation, history }) {
           <div className="reservation-card__owner-name">
             {'Owner\'s Name: '}
             <span className="bold">
-              {`${reservation.userDto.firstName}  ${reservation.userDto.lastName}`}
+              {`${reservation.owner.firstName}  ${reservation.owner.lastName}`}
             </span>
           </div>
           <div className="reservation-card__owner-email">
             {'Owner\'s Email: '}
             <span className="bold">
-              {reservation.userDto.email}
+              {reservation.owner.email}
             </span>
           </div>
           <div className="reservation-card__location">
             {'Location: '}
             <span className="bold">
-              {reservation.propertyReservationDataDto.location}
+              {reservation.property.location}
             </span> 
           </div>
         </div>
@@ -97,18 +97,17 @@ function ReservationCard({ reservation, history }) {
 
 ReservationCard.propTypes = {
   reservation: PropTypes.shape({
-    userDto: PropTypes.shape({
+    owner: PropTypes.shape({
       firstName: PropTypes.string,
       lastName: PropTypes.string,
       email: PropTypes.string,
     }).isRequired,
-    propertyReservationDataDto: PropTypes.shape({
+    property: PropTypes.shape({
       location: PropTypes.string,
       pricePerNight: PropTypes.number,
       title: PropTypes.string,
     }).isRequired,
     id: ExtraPropTypes.uuid.isRequired,
-    propertyId: PropTypes.number.isRequired,
     checkIn: PropTypes.string.isRequired,
     checkOut: PropTypes.string.isRequired,
   }).isRequired,

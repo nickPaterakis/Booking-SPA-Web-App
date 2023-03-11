@@ -1,4 +1,5 @@
 import { 
+  SET_ID,
   SET_EMAIL,
   SET_FIRSTNAME, 
   SET_LASTNAME, 
@@ -7,6 +8,7 @@ import {
 } from '../../constants/userConstants';
 
 const userDetails = {
+  id: '',
   firstName: '', 
   lastName: '',
   email: '', 
@@ -17,6 +19,8 @@ const userReducer = (state = userDetails, action) => {
   switch (action.type) {
     case SET_USER: 
       return action.payload;
+    case SET_ID:
+      return { ...state, id: action.payload };
     case SET_FIRSTNAME:
       return { ...state, firstName: action.payload };
     case SET_LASTNAME:

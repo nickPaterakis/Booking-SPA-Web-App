@@ -16,6 +16,7 @@ function Account() {
   const [phoneMode, setPhoneMode] = useState('view-container');
   const [selectedImage, setSelectedImage] = useState();
   const inputEl = useRef(null);
+  const requestData = new FormData();
 
   const changeFirstNameFieldToEditMode = () => {
     setFirstNameMode('edit-container');
@@ -43,34 +44,22 @@ function Account() {
 
   const handleFirstNameSave = async (firstName) => {
     changeFirstNameFieldToViewMode();
-    await updateUser(keycloak.token, {
-      id: user.id,
-      firstName,
-      lastName: user.lastName,
-      phone: user.phone,
-    });
+    requestData.append('user', JSON.stringify({ ...user, firstName }));
+    await updateUser(keycloak.token, requestData);
     dispatch(setFirstName(firstName));
   };
 
   const handleLastNameSave = async (lastName) => {
     changeLastNameFieldToViewMode();
-    await updateUser(keycloak.token, {
-      id: user.id,
-      firstName: user.firstName,
-      lastName,
-      phone: user.phone,
-    });
+    requestData.append('user', JSON.stringify({ ...user, lastName }));
+    await updateUser(keycloak.token, requestData);
     dispatch(setLastName(lastName));
   };
 
   const handlePhoneSave = async (phone) => {
     changePhoneFieldToViewMode();
-    await updateUser(keycloak.token, {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phone,
-    });
+    requestData.append('user', JSON.stringify({ ...user, phone }));
+    await updateUser(keycloak.token, requestData);
     dispatch(setPhone(phone));
   };
 
@@ -79,21 +68,24 @@ function Account() {
   };
 
   const imageUploadHandler = async () => {
-    const formData = new FormData();
-    formData.append('file', selectedImage);
-    formData.append('userId', user.id);
-    await imageUpload(formData, keycloak.token);
+    requestData.append('image', selectedImage);
+    requestData.append('user', JSON.stringify(user));
+    await updateUser(keycloak.token, requestData);
     window.location.reload();
   };
 
+  console.log(user);
   let image;
   if (selectedImage) {
     image = URL.createObjectURL(selectedImage);
-  } else if (user.profileImage) {
-    image = config.url.USER_IMAGES_URL + user.profileImage;
+  } else if (user.image) {
+    image = config.url.USER_IMAGES_URL + user.image;
   } else {
     image = noImageProfile;
   }
+  console.log(image);
+
+  // clearFormData();
 
   return (
     <main className="account">

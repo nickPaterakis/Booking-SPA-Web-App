@@ -34,6 +34,7 @@ const SearchBar = ({ history }) => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await getAllCountries();
+      console.log(result);
       setCountries(
         result.data.map((country) => country.name),
       );

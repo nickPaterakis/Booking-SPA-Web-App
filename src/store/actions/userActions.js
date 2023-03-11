@@ -1,4 +1,5 @@
 import { 
+  SET_ID,
   SET_EMAIL, 
   SET_FIRSTNAME, 
   SET_LASTNAME, 
@@ -8,6 +9,10 @@ import {
 
 export const setUser = (data) => (dispatch) => {
   dispatch({ type: SET_USER, payload: data });
+};
+
+export const setId = (data) => (dispatch) => {
+  dispatch({ type: SET_ID, payload: data });
 };
 
 export const setFirstName = (data) => (dispatch) => {

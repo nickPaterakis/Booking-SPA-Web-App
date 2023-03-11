@@ -10,6 +10,8 @@ RUN npm install react-scripts -g
 
 COPY . /booking-client
 
+RUN unset NODE_OPTIONS
+
 RUN npm run build
 
 CMD ["npm", "start"]

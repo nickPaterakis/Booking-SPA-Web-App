@@ -27,7 +27,7 @@ const Header = ({ location }) => {
     navStyle = 'header';
     logoStyle = 'link logo logo--header';
   }
-  
+  console.log(user.image);
   return (
     <header className={navStyle}>
       <Link to="/" className={logoStyle}>
@@ -46,7 +46,7 @@ const Header = ({ location }) => {
                 && (
                   <div className="dropdown">
                     <div role="button" tabIndex={0} className="btn btn--account-dropdown prevent-selection" onClick={() => handleOpen()} onKeyPress={handleOpen}>
-                      <span className="btn__image"><img src={user.profileImage ? config.url.USER_IMAGES_URL + user.profileImage : noImageProfile} alt="profile" /></span>
+                      <span className="btn__image"><img src={user.image ? config.url.USER_IMAGES_URL + user.image : noImageProfile} alt="profile" /></span>
                       <span className="btn__text">{user.firstName}</span>
                     </div>
                     <AccountDropdown 

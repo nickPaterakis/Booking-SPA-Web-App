@@ -281,7 +281,7 @@ const CreatePropertyForm = ({ history, loadHandler }) => {
       let value;
 
       if (event.value) {
-        value = name === 'country' ? { id: event.value, name: event.label } : event.value;
+        value = name === 'country' ? event.label : event.value.name;
       } else {
         value = event.target.value;
       }
@@ -357,25 +357,62 @@ const CreatePropertyForm = ({ history, loadHandler }) => {
     event.preventDefault();
 
     const formData = {};
+    const ADDRESS = 'address';
     const fd = new FormData();
+    console.log(createPropertyForm.formControls);
     for (const formElementId in createPropertyForm.formControls) {
       if (Object.prototype.hasOwnProperty.call(createPropertyForm.formControls, formElementId)) {
         if (formElementId === 'amenities') {
           formData[formElementId] = createPropertyForm
             .formControls[formElementId].value.filter((amenity) => amenity.isChecked);
           formData[formElementId] = formData[formElementId]
-            .map((amenity) => ({ id: amenity.id, name: amenity.value }));
+            .map((amenity) => (amenity.value));
         } else if (formElementId === 'images') {
           createPropertyForm.formControls[formElementId].value.forEach((file, i) => {
             fd.append('file', file);
           });
+        } else if (formElementId === 'city') {
+          formData[ADDRESS] = { 
+            ...formData[ADDRESS], 
+            city: createPropertyForm.formControls[formElementId].value,
+          };
+        } else if (formElementId === 'postCode') {
+          formData[ADDRESS] = { 
+            ...formData[ADDRESS], 
+            postCode: createPropertyForm.formControls[formElementId].value,
+          };
+        } else if (formElementId === 'streetName') {
+          formData[ADDRESS] = { 
+            ...formData[ADDRESS], 
+            streetName: createPropertyForm.formControls[formElementId].value,
+          };
+        } else if (formElementId === 'streetNumber') {
+          formData[ADDRESS] = { 
+            ...formData[ADDRESS], 
+            streetNumber: createPropertyForm.formControls[formElementId].value,
+          };
+        } else if (formElementId === 'country') {
+          formData[ADDRESS] = { 
+            ...formData[ADDRESS], 
+            country: createPropertyForm.formControls[formElementId].value,
+          };
         } else if (createPropertyForm.formControls[formElementId].value) {
           formData[formElementId] = createPropertyForm.formControls[formElementId].value;
         }
       }
     }
-    formData.ownerId = user.id;
 
+    const owner = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      image: user.image,
+    };
+
+    formData.owner = owner;
+
+    console.log(formData);
     fd.append('property', JSON.stringify(formData));
 
     loadHandler(true);

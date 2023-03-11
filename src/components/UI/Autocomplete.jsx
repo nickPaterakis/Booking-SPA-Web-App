@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import Aux from '../../hoc/Auxiliary';
-import { getCountries } from '../../api/CountriesService';
 
 const Autocomplete = ({ handleLocation, countries }) => {
   const [state, setState] = useState({

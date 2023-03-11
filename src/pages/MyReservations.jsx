@@ -1,6 +1,7 @@
 import { useKeycloak } from '@react-keycloak/web';
 import React, { useState, useEffect } from 'react';
-import { getReservationsByUserId } from '../api/ReservationService';
+import { useSelector } from 'react-redux';
+import { getReservationsByRenterId } from '../api/ReservationService';
 import ReservationCard from '../components/UI/ReservationCard';
 import Spinner from '../components/UI/Spinner';
 import reservationIcon from '../assets/icons/online-booking.svg';
@@ -8,19 +9,24 @@ import reservationIcon from '../assets/icons/online-booking.svg';
 function Reservations() {
   const { keycloak } = useKeycloak();
   const [reservations, setReservations] = useState();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getReservationsByUserId(keycloak.token);
+      console.log(user.id);
+      const response = await getReservationsByRenterId(user.id);
       setReservations(response.data);
     };
-    fetchData();
-  }, []);
+    if (user) {
+      console.log(user);
+      fetchData();
+    }
+  }, [user]);
 
   if (!reservations) {
     return <Spinner />;
   }
-  
+  console.log(reservations);
   return (
     <div className="my-reservations">
       {Array.isArray(reservations) && reservations.length

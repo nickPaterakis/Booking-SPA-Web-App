@@ -18,17 +18,20 @@ const Properties = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await searchProperties(
-        location,
-        moment(moment(dates.startDate).toDate()).format(DATE_FORMAT),
-        moment(moment(dates.endDate).toDate()).format(DATE_FORMAT),
-        guests,
-        currentPage,
-      );
-      
-      setPropertiesPage({
-        data,
-      });
+      try {
+        const response = await searchProperties(
+          location,
+          moment(moment(dates.startDate).toDate()).format(DATE_FORMAT),
+          moment(moment(dates.endDate).toDate()).format(DATE_FORMAT),
+          guests,
+          currentPage,
+        );
+        setPropertiesPage(response.data);
+      } catch (err) {
+        if (err.response.status === 404) {
+          setPropertiesPage([]);
+        }
+      }
     };
   
     fetchData();
@@ -42,9 +45,8 @@ const Properties = () => {
   if (!propertiesPage) {
     return <Spinner />;
   }
-
-  const { properties } = propertiesPage.data;
-  const { totalElements } = propertiesPage.data;
+  const { properties } = propertiesPage;
+  const { totalElements } = propertiesPage;
   const pageCount = Math.ceil(totalElements / PER_PAGE);
 
   console.log(properties);

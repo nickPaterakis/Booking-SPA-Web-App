@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import { SERVICE_FEE } from '../constants/reservationConstants';
 import PropertySlider from '../components/PropertyComponents/PropertySlider';
 import { getProperty } from '../api/PropertyService';
 import Spinner from '../components/UI/Spinner';
@@ -29,12 +30,31 @@ function Property({ type, history }) {
       const reservation = {
         checkIn: dates.startDate,
         checkOut: dates.endDate,
-        propertyId: property.id,
-        location: property.address.country,
-        userId: user.id,
-        ownerId: property.ownerId,
-        price: reservationPrice,
+        totalPrice: { amount: reservationPrice + SERVICE_FEE },
+        property: {
+          id: property.id,
+          title: property.title,
+          propertyType: property.propertyType,
+          pricePerNight: { amount: property.pricePerNight },
+          country: property.address.country,
+          location: `${property.address.streetName} ${property.address.streetNumber}, ${property.address.city}, ${property.address.country}`,
+        },
+        renter: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone,
+        },
+        owner: {
+          id: property.owner.id,
+          firstName: property.owner.firstName,
+          lastName: property.owner.lastName,
+          email: property.owner.email,
+          phone: property.owner.phone,
+        },
       };
+      console.log(reservation);
       await createReservation(reservation, keycloak.token);
       history.push('/reservation');
     }
@@ -55,6 +75,8 @@ function Property({ type, history }) {
   const days = moment(dates.endDate).diff(dates.startDate, 'days');
   reservationPrice = days * property.pricePerNight;
 
+  console.log(property);
+  console.log(config.url.USER_IMAGES_URL + property.ownerImage);
   return (
     <main className="property">
       <header className="property-header">
@@ -75,7 +97,7 @@ function Property({ type, history }) {
           <div className="property-overview padding-bottom-small">
             <div className="property-overview__left-column">
               <div className="property-overview__host-name">
-                {`${property.propertyType} hosted by ${property.ownerFirstName} ${property.ownerLastName}`}
+                {`${property.propertyType} hosted by ${property.owner.firstName} ${property.owner.lastName}`}
               </div>
               <div className="property-overview__characteristics">
                 {`${property.maxGuestNumber} guests · ${property.bedroomNumber} bedrooms · ${property.bathNumber} bath`}
@@ -83,7 +105,7 @@ function Property({ type, history }) {
             </div>
             <div className="property-overview__right-column">
               <div className="property-overview__host-image">
-                <img src={property.ownerImage ? config.url.USER_IMAGES_URL + property.ownerImage : noImageProfile} alt="profile" />
+                <img src={property.owner.image ? config.url.USER_IMAGES_URL + property.owner.image : noImageProfile} alt="profile" />
               </div>
             </div>
           </div>
@@ -96,7 +118,7 @@ function Property({ type, history }) {
           <div className="property-location margin-top-small padding-bottom-small">
             <h1 className="property-location__title margin-bottom-extra-small">Location</h1>
             <div className="property-location__text">
-              {`${property.address.streetNumber}. ${property.address.streetName}, ${property.address.city}, ${property.address.country}`}
+              {`${property.address.streetName} ${property.address.streetNumber}, ${property.address.city}, ${property.address.country}`}
             </div>
           </div>
           <div className="property-amenities margin-top-small padding-bottom-small">
@@ -104,7 +126,7 @@ function Property({ type, history }) {
             <ul className="property-amenities__amenities">
               {property.amenities.map((amenity) => (
                 <li className="property-amenities__amenity" key={amenity.id}>
-                  {amenity.name}
+                  {amenity}
                 </li>
               ))}
             </ul>
