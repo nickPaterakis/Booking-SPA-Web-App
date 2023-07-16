@@ -2,7 +2,7 @@ import Keycloak from 'keycloak-js';
 import { config } from '../constants/systemConstants';
 
 const keycloakConfig = {
-  url: `${config.url.KEYCLOAK_BASE_URL}/`, 
+  url: `${config.url.KEYCLOAK_BASE_URL}`, 
   realm: 'booking', 
   clientId: config.KEYCLOAK_CLIENT_ID,
 };

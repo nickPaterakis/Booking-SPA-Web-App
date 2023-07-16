@@ -2,27 +2,27 @@ FROM node:10-alpine as build
 
 WORKDIR /booking-client
 
-COPY package.json /booking-client/package.json
+COPY package*.json ./
 
-RUN npm install
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
 RUN npm install react-scripts -g
 
-COPY . /booking-client
+COPY . .
 
 RUN npm run build
 
 CMD ["npm", "start"]
-# # => Run container
-# FROM nginx:1.16.0
 
-# COPY --from=build /booking-client/build /usr/share/nginx/html
+FROM nginx:1.16.0
 
-# RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=build /booking-client/build /usr/share/nginx/html
 
-# COPY nginx.conf /etc/nginx/conf.d
+RUN rm /etc/nginx/conf.d/default.conf
 
-# EXPOSE 80
+COPY nginx.conf /etc/nginx/conf.d
 
-# # Start Nginx server
-# CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
+EXPOSE 80
+
+# Start Nginx server
+CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
