@@ -1,8 +1,22 @@
 # Booking Management System
 
-Booking is a single page web application that helps users to find a house to rent based on some characteristics and make their own listings in order to find tenants for their properties. The technologies that I use are, React, Redux, Axios, CSS, Sass, Keycloak, Docker, and NGINX.
+Booking Management System is a dynamic single-page web application designed to showcase the process of finding rental properties and listing properties for prospective tenants. This platform utilizes a robust stack of cutting-edge technologies, including React, Redux, Axios, CSS/Sass, Keycloak, Docker, and NGINX, to deliver an efficient and user-friendly experience.
 
 # Overview
+
+For Renters:
+
+* Discover your ideal rental property by customizing your search preferences, including location, dates, and the number of guests.
+* Explore property listings complete with high-quality images, detailed descriptions, and contact information.
+* Create your personal account and keep track of your bookings.
+
+For Property Owners:
+
+* List your properties through an intuitive user interface.
+* Attract potential tenants by showcasing your properties with eye-catching images and informative descriptions.
+* Access booking information for your properties and manage your property portfolio.
+
+# Key Features
 
 <h3>Create Property</h3>
 
