@@ -1,6 +1,6 @@
 # Booking Management System
 
-Booking Management System is a dynamic single-page web application designed to showcase the process of finding rental properties and listing properties for prospective tenants. This platform utilizes a robust stack of cutting-edge technologies, including React, Redux, Axios, CSS/Sass, Keycloak, Docker, and NGINX, to deliver an efficient and user-friendly experience.
+Booking Management System is a single-page web application designed to showcase the process of finding rental properties and listing properties for prospective tenants. This platform utilizes a robust stack of cutting-edge technologies, including React, Redux, Axios, CSS/Sass, Keycloak, Docker, and NGINX, to deliver an efficient and user-friendly experience.
 
 # Overview
 
