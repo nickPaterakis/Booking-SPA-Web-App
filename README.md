@@ -4,6 +4,9 @@ Booking Management System is a dynamic single-page web application designed to s
 
 # Overview
 
+
+Are you in search of your next rental home or seeking tenants to occupy your property? Look no further! The Booking Management System provides a solution for both renters and property owners.
+
 For Renters:
 
 * Discover your ideal rental property by customizing your search preferences, including location, dates, and the number of guests.
@@ -18,7 +21,9 @@ For Property Owners:
 
 # Key Features
 
-<h3>Create Property</h3>
+Explore the core functionalities of the Booking Management System through these key scenarios, each accompanied by a detailed video demonstration.
+
+### Create Property Listing
 
 ![create-property](https://user-images.githubusercontent.com/36018286/129600915-4006c647-9086-4ae1-81c9-19aec0400c45.gif)
 
